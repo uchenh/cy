@@ -682,5 +682,3 @@ iSCSI Gateway 将 Ceph RBD 镜像通过 iSCSI 协议暴露给传统 SAN 存储�
 
 ---
 
-*文档版本：v1.0*  
-*最后更新：2026-08-07*

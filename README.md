@@ -2,35 +2,34 @@
 
 > 日常工作中的软件安装、集群部署、模型部署及相关知识整理，全部为实际操作中沉淀的资料（Markdown / Word / PDF）。
 
-## 目录结构
+## 目录导航（点击跳转）
 
-```
-cy/
-├── 教程/
-│   ├── ceph/            # Ceph 部署与运维（扩容、客户端挂载、CephFS、RGW 等）
-│   ├── lustre/          # Lustre 分布式文件系统（知识点、部署方案、教学讲解）
-│   ├── slurm集群部署/    # Slurm 集群部署与完整流程
-│   └── *.md             # 常用软件安装教程（Anaconda、Docker、Dify、ComfyUI、RStudio 等）
-├── 模型部署/            # 本地大模型部署（Conda + vLLM + Open WebUI + ModelScope 模型下载）
-├── 知识/                # 基础知识整理（Ceph / Lustre 核心组件详解）
-├── 代理/                # 代理环境配置
-├── 其他/                # AMD MxGPU、GPU 虚拟化等杂项
-├── GitHub仓库使用指南.md # 本仓库日常使用速查（克隆 / 提交 / 分支）
-└── README.md
-```
+**📂 教程（集群与软件部署实战）**
 
-## 内容概览
+- [教程/ceph](教程/ceph/) — Ceph 部署与运维：扩容、客户端挂载、CephFS、RGW 对象存储等
+- [教程/lustre](教程/lustre/) — Lustre 分布式文件系统：知识点、Lustre vs Ceph 对比、多种部署方案与教学讲解
+- [教程/slurm集群部署](教程/slurm集群部署/) — Slurm 集群多节点安装、源码编译部署与完整流程笔记
+- 教程根目录常用安装教程：
+  - [Anaconda 安装教程](教程/Anaconda安装教程.md)
+  - [Dify 安装部署](教程/Dify安装部署.md)
+  - [Docker 安装部署](教程/docker安装部署.md)
+  - [Docker 跑 DeepSeek-V4-Flash-0731](教程/docker跑deepseekv4flash0731.md)
+  - [ComfyUI 部署四卡](教程/comfyui部署四卡.md)
+  - [RStudio 安装教程](教程/RStudio%20最新版在Ubuntu26.04安装教程.md)
+  - [Ubuntu 科学计算环境依赖](教程/Ubuntu22.04-科学计算环境依赖安装部署.md)
+  - [Ubuntu 密码破解教程](教程/Ubuntu密码破解教程.md)
+  - [芯宇驰 E240 NVMe U.2 硬盘测试报告](教程/芯宇驰E240%20NVMe%20U.2%204.0硬盘测试报告.md)
 
-- **教程/**：集群与软件部署实战
-  - `ceph/`：新增节点扩容、客户端挂载、Dashboard GUI、CephFS、副本模式、RGW 对象存储
-  - `lustre/`：知识点详解、Lustre vs Ceph 对比、单机/三节点/新增 OSS 等多种部署方案与教学讲解
-  - `slurm集群部署/`：多节点集群安装指南、Ubuntu 源码编译部署 Slurm、完整流程笔记及机器 IP 清单
-  - 根目录：Anaconda、Dify、Docker（含 DeepSeek 容器）、ComfyUI 四卡、RStudio、Ubuntu 环境依赖等安装教程，以及 SSD 硬盘测试报告
-- **模型部署/**：本地大模型部署记录——Miniconda 环境、vLLM 推理框架、Open WebUI 界面，以及 ModelScope 多模型下载命令清单
-- **知识/**：Ceph、Lustre 核心组件详解与对比
-- **代理/**：代理服务配置方法
-- **其他/**：AMD MxGPU on VMware ESXi、GPU 虚拟化（AMD）方案
-- **GitHub仓库使用指南.md**：本仓库克隆与日常提交的分支操作速查
+**📂 其它分类**
+
+- [模型部署/部署本地模型.md](模型部署/部署本地模型.md) — 本地大模型部署：Miniconda + vLLM + Open WebUI + ModelScope 模型下载
+- [知识](知识/) — Ceph / Lustre 核心组件详解与对比
+- [代理](代理/) — 代理服务配置方法
+- [其他](其他/) — AMD MxGPU、GPU 虚拟化等杂项方案
+
+**📄 仓库根文件**
+
+- [GitHub仓库使用指南.md](GitHub仓库使用指南.md) — 本仓库日常使用速查（克隆 / 提交 / 分支）
 
 ## 说明
 

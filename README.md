@@ -77,8 +77,7 @@
 
 ## 🧩 其他
 
-- [AMD MxGPU 现代部署方案（QEMU/KVM + Ubuntu 22.04）](其他/AMD_MxGPU_VMware_ESXi_部署文档.md) — 替代早期 ESXi 方案
-- [GPU 虚拟化（AMD）笔记](其他/gpu虚拟化(AMD).md)
+- [AMD MxGPU VMware ESXi 部署文档](其他/AMD_MxGPU_VMware_ESXi_部署文档.md)
 - [DeepSeek · GLM · Qwen 视觉多模态模型对比报告](其他/deepseek-vs-glm-vs-qwen-vision-models.md)
 
 ---

@@ -3,13 +3,9 @@
 ## 概述
 
 - 目标主机：`192.168.18.133`（Ubuntu 22.04.5 LTS x86\_64，128 核 / 125G 内存 / 1.8T 磁盘）
-
 - 系统用户：`ps`（属 sudo 组）
-
 - 部署产物：Dify v1.17.0（官方 docker-compose 方式）
-
 - 访问地址：`http://192.168.18.133`（80 端口），HTTPS 为 443（本机未配置证书，建议走 HTTP）
-
 - 首次访问需注册管理员账号后进入设置中心。
 
 ## 一、前置：安装 Docker 与 Docker Compose
@@ -94,7 +90,7 @@ docker compose up -d
 
 ## 六、日常管理命令（需在 /opt/dify/dify/docker 下执行）
 
-```
+```bash
 docker compose ps            # 查看状态
 docker compose logs -f api   # 跟随后端日志
 docker compose restart       # 重启全部
@@ -108,14 +104,9 @@ docker compose down -v       # 连同数据卷一并删除（谨慎）
 ## 相关脚本（本目录）
 
 - `sshrun.py` / `sshscript.py` —— 本机 paramiko 远程执行工具（连接 192.168.18.133 / ps 用户）
-
 - `install_docker.sh` —— 阿里云源安装 Docker + Compose
-
 - `docker_mirror.sh` —— 配置镜像加速 / docker 组 / 拉取验证
-
 - `clone_dify.sh` —— 浅克隆 + 稀疏检出 Dify docker 目录
-
 - `deploy_dify.sh` / `redeploy.sh` —— 生成 .env、SECRET\_KEY、compose 拉起（冲突时 down 后 up）
-
 - `inspect_config.sh` / `check_progress.sh` / `check_final.sh` —— 部署过程检查
 

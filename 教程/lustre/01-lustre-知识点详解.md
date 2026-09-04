@@ -387,7 +387,7 @@ lctl set_param llite.lustre-*.max_read_ahead_mb=256
 | --- | --- | --- |
 | OST/MDT 容量 | `lfs df -h` | 各目标使用率 |
 | IO 统计 | `lctl get_param osc.*.stats` | 读写次数/字节 |
-|  RPC 情况 | `lctl get_param osc.*.rpc_stats`（2.14+ 适用；早期版本请用 `lctl get_param osc.*.stats`） | RPC 延迟分布 |
+| RPC 情况 | `lctl get_param osc.*.rpc_stats`（2.14+ 适用；早期版本请用 `lctl get_param osc.*.stats`） | RPC 延迟分布 |
 | 锁统计 | `lctl get_param ldlm.*.stats` / `ldlm_namespaces` | 锁授予/冲突 |
 | 连接状态 | `lctl dl`；`lctl get_param *.*.ping` | 设备存活 |
 | 客户端列表 | `lctl get_param mdt.*.exports` | 已连接客户端 |

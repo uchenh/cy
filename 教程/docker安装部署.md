@@ -1,3 +1,9 @@
+# Docker 安装部署
+
+> 适用于：Ubuntu 系统。通过 Docker 官方软件源安装 Docker 引擎与 Docker Compose 插件，配置国内镜像加速与 DNS，最后用 nginx 容器验证部署是否成功。
+
+以下命令需以 `sudo`（或 root 用户）执行：
+
 ```bash
 sudo apt update
 sudo apt install -y ca-certificates curl gnupg
@@ -33,8 +39,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-
-#验证版本
+# 验证版本
 docker -v
 docker compose version
 

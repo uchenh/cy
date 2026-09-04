@@ -41,7 +41,7 @@ ping -c 2 192.168.12.176 && ping -c 2 192.168.12.90 && ping -c 2 192.168.12.169
 
 ```bash
 # 3.1 主机名（每台节点改成自己的名字）
-hostnamectl set-hostname ceph1 
+hostnamectl set-hostname ceph1
 
 # 3.2 hosts 解析
 cat >> /etc/hosts << 'HOSTS'

@@ -17,7 +17,7 @@
 | 计算/AI | **Instinct MI325X** | CDNA 3，256GB HBM3E |
 | 计算/AI | **Instinct MI350X / MI355X** | CDNA 4，288GB HBM3E（MI350X 256CU；MI355X 更高密度） |
 
-来源：[$TRAE_REF](https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.6.0.k/userguides/Getting_started_with_MxGPU.html)
+来源：[MxGPU 官方文档](https://instinct.docs.amd.com/projects/virt-drv/en/mainline-8.6.0.k/userguides/Getting_started_with_MxGPU.html)
 
 ---
 

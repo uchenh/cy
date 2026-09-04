@@ -25,6 +25,7 @@ cd cy
 - 如果想另开分支提交（如试验内容）：
 
 ```bash
+git branch -a
 git checkout -b 新分支名        # 新建并切换到新分支
 git push -u origin 新分支名      # 首次推送并关联（之后只需 git push）
 git checkout main               # 切回 main

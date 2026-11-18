@@ -7,6 +7,7 @@ Ubuntu 22.04 单 Master 节点部署 Kubernetes 1.28 + 可视化 Dashboard
 Kubernetes 要求永久关闭 Swap ，否则 kubelet 无法正常启动。
 一、系统环境准备（所有节点执行）
 1. 关闭 Swap 分区（必须）
+```bash
 # 临时关闭 Swap1
 sudo swapoff -a2
  3
@@ -31,12 +32,14 @@ net.bridge.bridge-nf-call-iptables  = 17
 net.bridge.bridge-nf-call-ip6tables = 18
 net.ipv4.ip_forward                 = 19
 EOF10
+```
 
 
 <!-- 第 2 页 -->
 
 Kubernetes 1.24+ 不再默认使用 Docker 作为容器运行时，推荐使用 Containerd 。
  11
+```bash
 # 应用参数12
 sudo sysctl --system13
 4. 设置主机名和 hosts 解析
@@ -60,12 +63,14 @@ https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee
 4
 3. 安装 Containerd
 sudo apt update1
+```
 
 
 <!-- 第 3 页 -->
 
 sudo apt install -y containerd.io2
 4. 配置 Containerd
+```bash
 # 生成默认配置文件1
 sudo containerd config default | sudo tee /etc/containerd/config.toml2
  3
@@ -94,11 +99,13 @@ https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee
 sudo apt update1
 sudo apt install -y kubelet=1.28.10-1.1 kubeadm=1.28.10-1.1 kubectl=1.28.10-1.12
  3
+```
 
 
 <!-- 第 4 页 -->
 
 参数说明：
+```bash
 # 锁定版本，防止自动更新4
 sudo apt-mark hold kubelet kubeadm kubectl5
  6
@@ -124,6 +131,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config2
 sudo chown $(id -u):$(id -g) $HOME/.kube/config3
  4
 # 验证 kubectl 连接5
+```
 
 
 <!-- 第 5 页 -->
@@ -134,6 +142,7 @@ Calico 是 Kubernetes 最常用的网络插件之一，性能稳定且功能丰�
 输出 node/k8s-master untainted 表示成功。
 kubectl get nodes6
 五、安装 Calico 网络插件
+```bash
 # 下载 Calico 3.26 版本（兼容 K8s 1.28 ）1
 kubectl apply -f 
 https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/calico.yaml
@@ -159,12 +168,14 @@ https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recomme
 2
  3
 # 创建本地 yaml 文件4
+```
 
 
 <!-- 第 6 页 -->
 
 vim dashboard-aliyun.yaml5
 2. 粘贴以下完整内容到dashboard-aliyun.yam（已替换所有镜像为阿里云）
+```bash
 # Copyright 2017 The Kubernetes Authors.1
 # Licensed under the Apache License, Version 2.02
 # 已将所有镜像替换为阿里云国内镜像： registry.cn-hangzhou.aliyuncs.com/google_containers3
@@ -200,6 +211,7 @@ spec:27
   selector:33
     k8s-app: kubernetes-dashboard34
  35
+```
 
 
 <!-- 第 7 页 -->
@@ -483,6 +495,7 @@ scraper:v1.0.8
 <!-- 第 13 页 -->
 
 选择 " 令牌 " 登录，粘贴刚才获取的令牌即可。
+```bash
 # 创建管理员服务账户1
 kubectl create serviceaccount admin-user -n kubernetes-dashboard2
  3
@@ -499,8 +512,9 @@ https:// 你的服务器 IP:300001
 1. 检查集群组件状态
 kubectl get cs1
 kubectl get pods -n kube-system2
+```
 
-![图（第13页）](assets/Ubuntu 22.04 单Master节点部署Kubernetes 1.28 + 可视化Dashboard/p13_img1.png)
+![图（第13页）](assets/Ubuntu%2022.04%20%E5%8D%95Master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2Kubernetes%201.28%20%2B%20%E5%8F%AF%E8%A7%86%E5%8C%96Dashboard/p13_img1.png)
 
 
 <!-- 第 14 页 -->
@@ -508,18 +522,20 @@ kubectl get pods -n kube-system2
 所有 Pod 都应该处于 Running 状态。
 然后通过 http:// 你的服务器 IP:NodePort 端口 访问 Nginx 页面，验证集群工作正常。
 2. 测试部署一个示例应用
+```bash
 # 部署 Nginx 示例1
 kubectl create deployment nginx --image=nginx:1.252
 kubectl expose deployment nginx --port=80 --type=NodePort3
  4
 # 查看 NodePort 端口5
 kubectl get svc nginx6
+```
 
-![图（第14页）](assets/Ubuntu 22.04 单Master节点部署Kubernetes 1.28 + 可视化Dashboard/p14_img2.png)
+![图（第14页）](assets/Ubuntu%2022.04%20%E5%8D%95Master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2Kubernetes%201.28%20%2B%20%E5%8F%AF%E8%A7%86%E5%8C%96Dashboard/p14_img2.png)
 
-![图（第14页）](assets/Ubuntu 22.04 单Master节点部署Kubernetes 1.28 + 可视化Dashboard/p14_img3.png)
+![图（第14页）](assets/Ubuntu%2022.04%20%E5%8D%95Master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2Kubernetes%201.28%20%2B%20%E5%8F%AF%E8%A7%86%E5%8C%96Dashboard/p14_img3.png)
 
-![图（第14页）](assets/Ubuntu 22.04 单Master节点部署Kubernetes 1.28 + 可视化Dashboard/p14_img4.png)
+![图（第14页）](assets/Ubuntu%2022.04%20%E5%8D%95Master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2Kubernetes%201.28%20%2B%20%E5%8F%AF%E8%A7%86%E5%8C%96Dashboard/p14_img4.png)
 
 
 <!-- 第 15 页 -->
@@ -539,4 +555,4 @@ Kubernetes Dashboard 默认只在集群内部可访问可以通过 Dashboard 的
 4.
 5.
 
-![图（第15页）](assets/Ubuntu 22.04 单Master节点部署Kubernetes 1.28 + 可视化Dashboard/p15_img5.png)
+![图（第15页）](assets/Ubuntu%2022.04%20%E5%8D%95Master%E8%8A%82%E7%82%B9%E9%83%A8%E7%BD%B2Kubernetes%201.28%20%2B%20%E5%8F%AF%E8%A7%86%E5%8C%96Dashboard/p15_img5.png)

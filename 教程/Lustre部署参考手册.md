@@ -207,6 +207,7 @@ stripe_offset 起始 OST 索引 -1 表示由 MDS 自动选择（轮转均
 满 stripe_count 个 OST 后回到第一个。单个大文件的吞吐即可聚合多个 OST/OSS 的带
 宽。
 查看与设置（lfs 命令）：
+```bash
 # 查看文件/目录布局
 lfs getstripe /mnt/lustre/bigfile.dat
 lfs getstripe -d /mnt/lustre/dataset/ # 目录默认布局
@@ -236,6 +237,7 @@ EX（Exclusive） 独占写 不与其他任何模式共存
 PW（Protected Write） 保护写 与 PR/NL 兼容，排斥 EX/PW
 PR（Protected Read） 保护读 与 PW/PR/NL 兼容，排斥 EX
 NL（Null，占位锁） 不执行实际锁保护 与所有模式兼容
+```
 
 
 <!-- 第 8 页 -->
@@ -398,6 +400,7 @@ ldiskfs 会失败。
 号后再执行安装，不要照抄旧文档的包名。
 什么时候需要自己编译内核模块：当目标发行版/内核在 Whamcloud 仓库没有预编译服务端
 包时（例如 Ubuntu 服务端、较新的 RHEL 小版本）。编译要点：
+```bash
 # 1) 依赖：gcc gcc-c++ make libtool autoconf kernel-devel-$(uname -r) + Whamcloud 定
 制 e2fsprogs
 # 2) 源码：从 downloads.whamcloud.com 的 SRPMS 子目录下载 lustre-<ver>.src.rpm
@@ -431,6 +434,7 @@ Lustre 版本 类型 Ubuntu 24.04（kernel 6.x）支持 结论
 primary 6.8.0-38）
 推荐
 2.17.x 最新 feature 分支 支持 推荐
+```
 
 
 <!-- 第 13 页 -->
@@ -456,6 +460,7 @@ Lustre 适配跟不上
 HWE 迭代节奏，HWE 一
 升级模块就编译失败
 建议：所有节点统一切换回 GA 内核（6.8） 并锁定版本：
+```bash
 # 1) 查看当前内核与已安装的内核包
 uname -r
 dpkg -l | grep -E 'linux-(image|headers)' | awk '{print $2}'
@@ -470,6 +475,7 @@ sudo apt-mark hold linux-image-generic linux-headers-generic
 建 ZFS 模块"（ZFS 2.2.2 仅兼容内核 ≤6.6），dpkg 锁被长期占用。正确顺序是先切
 6.8 并 purge HWE 内核，再装 ZFS。卡死修复：sudo pkill -f "dkms build -m zfs"
 + sudo dpkg --configure -a。
+```
 
 
 <!-- 第 14 页 -->
@@ -627,6 +633,7 @@ GbE，管理网与存储网分离。
 行；CentOS 7.9 + 2.12.9 把 dnf 换成 yum、仓库路径换成对应 el7 路径即可。文中
 ens192 是示例网卡名，请以 ip link 为准。
 6.1 环境准备（所有节点）
+```bash
 # 1) 主机名（在每台节点上分别执行）
 hostnamectl set-hostname mds1 # oss1 / client1 各自设置
 # 2) /etc/hosts 全节点一致（Lustre 通信建议全走静态 IP，不依赖 DNS）
@@ -657,6 +664,7 @@ baseurl=https://downloads.whamcloud.com/public/lustre/lustre-2.15.8/el8.10/serve
 enabled=1
 gpgcheck=0
 [lustre-client]
+```
 
 
 <!-- 第 19 页 -->
@@ -672,6 +680,7 @@ baseurl=https://downloads.whamcloud.com/public/e2fsprogs/latest/el8/
 enabled=1
 gpgcheck=0
 EOF
+```bash
 # 2) 安装依赖 EPEL
 dnf install -y epel-release
 # 3) 安装 Lustre 补丁内核（先查清仓库里确切的 kernel 包名/版本再装）
@@ -700,6 +709,7 @@ lnetctl net add --net tcp0 --if ens192 # --if 填实际网卡名
 lnetctl net show # 应显示 up
 lctl list_nids # 期望：192.168.10.11@tcp0
 # 方式 2：静态 modprobe 参数（需要持久化时）
+```
 
 
 <!-- 第 20 页 -->
@@ -714,6 +724,7 @@ lctl list_nids
 连通性验证（服务端之间、客户端到 MGS）：
 lnetctl ping 192.168.10.11@tcp0 # 2.13 起 lctl ping 已并入 lnetctl
 6.4 创建并挂载 MGS/MGT（mds1）
+```bash
 # MGT 很小（几 GB 足够），用一块独立盘 /dev/sdb
 mkfs.lustre --fsname=lustre --mgs /dev/sdb
 mkdir -p /mnt/mgt
@@ -741,11 +752,13 @@ mount -t lustre /dev/sdc /mnt/ost1
 6.7 服务端验证（mds1）
 lctl dl
 # 期望看到多行，例如：
+```
 
 
 <!-- 第 21 页 -->
 
 21
+```bash
 # 0 UP mgs MGS MGS 9
 # 1 UP mdt MDS MDS_MDT0000 7 ...
 # 2 UP osc lustre-OST0000-osc-MDT0000 ... (OSS 注册后自动出现)
@@ -784,11 +797,13 @@ dd if=/mnt/lustre/bigfile of=/dev/null bs=1M oflag=direct
 dnf install -y fio
 fio --name=test --rw=rw --bs=1M --size=512M --numjobs=4 \
 --directory=/mnt/lustre --ioengine=libaio --direct=1
+```
 
 
 <!-- 第 22 页 -->
 
 22
+```bash
 # 4) 文件在多个 OST 上真实分布
 lfs getstripe /mnt/lustre/bigfile
 6.10 开机自启与持久化
@@ -806,6 +821,7 @@ client1 客户端挂载 fstab：...:/lustre /mnt/lustre lustre defaults,_netdev
 ⚠ 实测经验（见第 8.5 节）：fstab 的 _netdev 只等网卡、不等服务端 recovery
 窗口。客户端挂载推荐用"先 ping MGS 直到可达再 mount"的等待式 systemd 服务，
 避免整机重启后客户端"盘丢失"。
+```
 
 
 <!-- 第 23 页 -->
@@ -858,6 +874,7 @@ ${DISTRIB_CODENAME}/ ${DISTRIB_CODENAME} main" \
 curl -sL https://packages.microsoft.com/keys/microsoft.asc \
 | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
 sudo apt update
+```bash
 # 2) 查看仓库中可用的 DKMS 包（版本以仓库实际为准）
 apt list -a 'amlfs-lustre-client*' | grep dkms
 # 3) 安装 DKMS 客户端（示例版本为撰写时的 2.17.0；以第 2 步查询结果为准）
@@ -887,6 +904,7 @@ update 失败，改用路径 1 或 4。
 镜像 Whamcloud feature 分支构建（2.16/2.17 开发线），只提供预编译模块包（无
 DKMS）。⚠ 镜像未提供 GPG 密钥，必须关闭签名校验（[trusted=yes]），存在被篡改风
 险，仅建议学习/实验环境使用。
+```
 
 
 <!-- 第 25 页 -->
@@ -898,6 +916,7 @@ feature-release/ubuntu2404/client/ ./' \
 sudo apt update
 sudo apt install -y lustre-client-utils
 sudo apt install -y lustre-client-modules-$(uname -r)
+```bash
 # 若仓库没有与 uname -r 一致的模块包，改用 DKMS 路径或源码编译
 路径 4：源码编译（备选）
 适用：上述仓库均无合适的包、需要特定分支/提交，或想研究客户端源码。
@@ -928,6 +947,7 @@ lsmod | grep lustre
 与客户端不同，Ubuntu 24.04 没有官方预编译服务端 .deb，服务端角色必须从源码编
 译，这是 Ubuntu 与 RHEL 系的最大差异。编译耗时约 2~6 小时（视 CPU/内存），属
 正常现象。核心链路：确认内核/头文件 → 安装编译依赖 → 选定后端（ZFS 或
+```
 
 
 <!-- 第 26 页 -->
@@ -940,6 +960,7 @@ uname -r # 应为 6.8.0-XX-generic
 sudo apt install -y linux-headers-$(uname -r)
 apt list --installed | grep linux-headers # 复核版本一致
 ls -l /lib/modules/$(uname -r)/build # 应指向 headers 目录
+```bash
 # 锁定内核（强烈建议）
 sudo apt-mark hold linux-image-generic linux-headers-generic
 （2）安装编译依赖：
@@ -968,6 +989,7 @@ dkms）
 源码链接法
 额外组件 Ubuntu 自带 ZFS 2.2.x Whamcloud 定制 e2fsprogs + linux-
 source-6.8.0
+```
 
 
 <!-- 第 27 页 -->
@@ -989,6 +1011,7 @@ ls /usr/src | grep zfs # 期望形如 /usr/src/zfs-2.2.x（configure 探测用�
 ldiskfs 模块编译需要 ext4 内核源码，而 Ubuntu 的 linux-headers 只有编译产物、没
 有源码。官方 JIRA LU-18010 给出已验证的简化做法：把内核源码包里的 fs/ext4 目录符
 号链接进 headers：
+```bash
 # (a) 编译安装 Whamcloud 定制 e2fsprogs（版本号带 wc 后缀，ldiskfs 必需）
 git clone https://review.whamcloud.com/tools/e2fsprogs
 cd e2fsprogs && git checkout master-lustre
@@ -1012,11 +1035,13 @@ sudo ln -s /usr/src/linux-source-6.8.0/linux-source-6.8.0/fs/ext4 \
 git clone https://github.com/lustre/lustre-release.git
 cd lustre-release
 git checkout b2_16 # 2.16.x 稳定线；或 master（2.17 开发线）
+```
 
 
 <!-- 第 28 页 -->
 
 28
+```bash
 # 2) 生成 configure
 sh autogen.sh
 # 3) configure —— 按后端二选一
@@ -1034,6 +1059,7 @@ sudo modprobe libcfs && sudo modprobe lustre
 lctl version # 期望 2.16.x / 2.17.x
 要点：服务端所有节点必须安装同一套 debs、使用同一内核，否则目标注册/挂载会出现
 版本不一致；换内核后必须重编。常见编译报错见第 13.2 节。
+```
 
 
 <!-- 第 29 页 -->
@@ -1090,6 +1116,7 @@ uname -r # 实测为 7.0.0-29-generic（HWE 线，需修正）
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,FSTYPE
 id; sudo -n true && echo NOPASS || echo NEEDS_PASS
 （2）内核修正：切回 6.8 GA 并锁定（关键前置，三台执行）
+```bash
 # 1) 安装 GA 内核与头文件（6.8 线）
 sudo apt update
 sudo apt install -y linux-image-generic linux-headers-generic
@@ -1113,6 +1140,7 @@ linux-modules-7.0.0-29-generic
 # 1) 主机名（各台分别设置）
 sudo hostnamectl set-hostname mds1
 # 2) /etc/hosts 三机映射（三台内容一致；实测需删除默认的 127.0.1.1 行避免歧义）
+```
 
 
 <!-- 第 31 页 -->
@@ -1125,6 +1153,7 @@ sudo tee -a /etc/hosts <<'EOF'
 EOF
 sudo sed -i '/^127.0.1.1 /d' /etc/hosts
 getent hosts mds1 oss1 client1
+```bash
 # 3) 时间同步（Lustre 对时钟敏感，防客户端被 evict）
 sudo apt install -y chrony
 sudo systemctl enable --now chrony
@@ -1159,11 +1188,13 @@ sh autogen.sh
 ./configure --enable-server --with-zfs --disable-ldiskfs \
 --with-linux=/usr/src/linux-headers-$(uname -r)
 # 成功标志：结尾 "Type 'make' to build Lustre." + "checking if ZFS has ... yes"
+```
 
 
 <!-- 第 32 页 -->
 
 32
+```bash
 # 3) 编译打包（4 vCPU/3.8G 用 -j4）
 nohup make debs -j4 > /tmp/lustre_make.log 2>&1 &
 tail -f /tmp/lustre_make.log # 轮询进度
@@ -1200,6 +1231,7 @@ sudo mkfs.lustre --fsname=lustre --mdt --index=0 \
 --mgsnode=192.168.12.220@tcp --backfstype=zfs lustre-mdt/mdt
 # 3) 挂载
 sudo mkdir -p /mnt/mgt /mnt/mdt
+```
 
 
 <!-- 第 33 页 -->
@@ -1209,6 +1241,7 @@ sudo mount -t lustre lustre-mgt/mgt /mnt/mgt
 sudo mount -t lustre lustre-mdt/mdt /mnt/mdt
 mount | grep lustre
 （9）创建并挂载 OST（oss1）
+```bash
 # 1) 建池：/dev/sdb = OST0，/dev/sdc = OST1
 sudo zpool create lustre-ost0 /dev/sdb
 sudo zpool create lustre-ost1 /dev/sdc
@@ -1243,6 +1276,7 @@ sudo apt update
 sudo apt install -y amlfs-lustre-client-dkms-2.17.0-24-gf517bc4
 # 3) 加载模块并验证（必须 sudo）
 sudo modprobe lustre
+```
 
 
 <!-- 第 34 页 -->
@@ -1250,6 +1284,7 @@ sudo modprobe lustre
 34
 lctl version # 期望 2.17.0_24_gf517bc4
 lsmod | grep -E 'lustre|mdc|lov'
+```bash
 # 4) LNet（同本节第 7 步）+ 挂载
 sudo lnetctl lnet configure
 sudo lnetctl net add --net tcp0 --if ens33
@@ -1286,6 +1321,7 @@ sudo zpool set cachefile=/etc/zfs/zpool.cache lustre-ost0 lustre-ost1 # oss1
 # 3) LNet 开机自启（三台，--if ens33）
 sudo tee /etc/systemd/system/lnet-setup.service >/dev/null <<'EOF'
 [Unit]
+```
 
 
 <!-- 第 35 页 -->
@@ -1325,6 +1361,7 @@ generic
 5. fstab _netdev 只等网卡、不等服务：客户端开机早期即尝试挂载 → 被 recovery 窗
 口拒绝 → systemd 挂载单元超时 → 失败后不再自动重试，表现为"盘没了"。
 排查命令：
+```bash
 # client1：确认服务端是否可达、目标是否注册
 sudo lnetctl ping 192.168.12.220@tcp # 通 → 网络层 OK
 mount | grep lustre # 应为空（未挂载）
@@ -1333,6 +1370,7 @@ sudo lctl get_param mdt.lustre-MDT0000.recovery_status
 # 期望 status: COMPLETE（RECOVERING 期间客户端连不上）
 # client1 内核日志定位 rc=-16 来源
 sudo journalctl -k | grep -i lustre | tail
+```
 
 
 <!-- 第 36 页 -->
@@ -1340,6 +1378,7 @@ sudo journalctl -k | grep -i lustre | tail
 36
 解决方案（已实施并验证）：不用 fstab 挂载客户端，改为自定义 systemd 服务——先循环
 ping MGS 直到可达（最多 300s），再执行 mount：
+```bash
 # client1：
 # 1) 从 /etc/fstab 删除 192.168.12.220@tcp:/lustre 行
 # 2) 创建 /etc/systemd/system/lustre-client-mount.service：
@@ -1384,6 +1423,7 @@ stre on
 /mnt/lustre
 容量 lfs df -h MDT 23.5G + OST×2 47.6G×2 =
 95.2G
+```
 
 
 <!-- 第 37 页 -->
@@ -1452,6 +1492,7 @@ Ubuntu 24.04 后若内核是 7.0 HWE 线，按 9.4 步骤 1 切回 6.8 GA 并锁
 cat /etc/os-release | head -3
 uname -r # 若为 7.0.0-xx-generic（HWE 线），执行下方内核修正
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,FSTYPE
+```bash
 # 内核修正（仅当 uname -r 为 7.0 HWE；与第 8.3 节步骤 2 相同）
 sudo apt update
 sudo apt install -y linux-image-generic linux-headers-generic
@@ -1485,6 +1526,7 @@ zpool version # 期望 zfs-2.2.2-0ubuntu9.4
 步骤 4：服务端源码编译（约 40 分钟，后台）
 # GitHub 直连慢时走代理
 export http_proxy=http://192.168.12.187:7897 https_proxy=http://192.168.12.187:7897
+```
 
 
 <!-- 第 40 页 -->
@@ -1498,6 +1540,7 @@ git log --oneline -1 # 期望 4b0407a New release 2.17.0
 sh autogen.sh
 ./configure --enable-server --with-zfs --disable-ldiskfs \
 --with-linux=/usr/src/linux-headers-$(uname -r)
+```bash
 # 成功标志：结尾 "Type 'make' to build Lustre." + "checking if ZFS has ... yes"
 nohup make debs -j4 > /tmp/lustre_make.log 2>&1 &
 tail -f /tmp/lustre_make.log # 轮询：产出 7 个 .deb
@@ -1530,11 +1573,13 @@ sudo mkfs.lustre --fsname=lustre --ost --index=0 \
 --mgsnode=<本机 IP>@tcp --backfstype=zfs lustre-ost0/ost
 sudo mkfs.lustre --fsname=lustre --ost --index=1 \
 --mgsnode=<本机 IP>@tcp --backfstype=zfs lustre-ost1/ost
+```
 
 
 <!-- 第 41 页 -->
 
 41
+```bash
 # 3) 挂载服务端目标
 sudo mkdir -p /mnt/mgt /mnt/mdt /mnt/ost0 /mnt/ost1
 sudo mount -t lustre lustre-mgt/mgt /mnt/mgt
@@ -1574,6 +1619,7 @@ ExecStartPre=/usr/sbin/modprobe lnet
 ExecStart=/usr/sbin/lnetctl lnet configure
 ExecStart=/usr/sbin/lnetctl net add --net tcp0 --if ens33
 [Install]
+```
 
 
 <!-- 第 42 页 -->
@@ -1582,6 +1628,7 @@ ExecStart=/usr/sbin/lnetctl net add --net tcp0 --if ens33
 WantedBy=multi-user.target
 EOF
 sudo systemctl enable --now lnet-setup
+```bash
 # 3) 客户端挂载用等待式 systemd（fstab _netdev 不等 MGS recovery，重启会丢挂载）
 sudo tee /etc/systemd/system/lustre-client-mount.service >/dev/null <<'EOF'
 [Unit]
@@ -1628,6 +1675,7 @@ oflag=direct conv=fdatasync
 确
 10 重启自愈 sudo reboot 后 lfs df -h 自动恢复，客户端
 服务 active
+```
 
 
 <!-- 第 43 页 -->
@@ -1712,6 +1760,7 @@ df 暂缺该 OST，等窗口结束自动恢复——正常现象。
 扩容后注意 新文件可能落在新 OST（默认布局由 MDS 按空间自动选），已有文件不会自动迁移，
 需 lfs migrate（10.5）
 10.2 扩容前置检查
+```bash
 # [mds1] 确认当前已注册目标与最大 OST index
 sudo lctl get_param mgs.MGS.live.* # 期望列出 lustre-MDT0000 / OST0000 /
 OST0001
@@ -1726,6 +1775,7 @@ index + 1"即可（删除的 index 不复用）。
 以新增 oss2（IP 192.168.12.223，带 2 块数据盘 /dev/sdb、/dev/sdc） 为例。
 IP、用户名、盘符请按实际替换。流程与第 8.3 节在 oss1 上的执行完全一致，差异仅
 在 index 起始值和主机名。
+```
 
 
 <!-- 第 46 页 -->
@@ -1735,6 +1785,7 @@ IP、用户名、盘符请按实际替换。流程与第 8.3 节在 oss1 上的�
 仅当内核为 7.0 HWE 时执行）。
 （2）基础环境 [oss2]：
 sudo hostnamectl set-hostname oss2
+```bash
 # /etc/hosts：三机映射 + 新节点自身（所有现有节点也要加 oss2 一行；删除默认 127.0.1.1 行）
 sudo tee -a /etc/hosts <<'EOF'
 192.168.12.220 mds1
@@ -1764,11 +1815,13 @@ sudo zpool list
 生产环境建议用 mirror/RAID-Z 冗余而非单盘池。多盘合并建池也可，但单盘单池更利
 于按 OST 粒度管理。
 （8）创建并挂载 OST（index 从 2 开始）[oss2]：
+```
 
 
 <!-- 第 47 页 -->
 
 47
+```bash
 # mkfs：--index 取当前最大 index(1) + 1，--mgsnode 指向 mds1
 sudo mkfs.lustre --fsname=lustre --ost --index=2 \
 --mgsnode=192.168.12.220@tcp --backfstype=zfs lustre-ost2/ost
@@ -1805,11 +1858,13 @@ mount | grep lustre
 （新 OST index=2）为例。
 # [oss1] 确认新盘
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,FSTYPE # 确认 /dev/sdd 为裸盘、未被挂载
+```
 
 
 <!-- 第 48 页 -->
 
 48
+```bash
 # 建池、mkfs、挂载
 sudo zpool create lustre-ost2 /dev/sdd
 sudo mkfs.lustre --fsname=lustre --ost --index=2 \
@@ -1843,6 +1898,7 @@ lfs migrate -c -1 /mnt/lustre/test
 lfs getstripe -v /mnt/lustre/test/bigfile # obdidx 应含新 OST index
 迁移前提：目标 OST 数量 ≤ 当前可用 OST 总数；lfs migrate 在线执行，文件可继续
 被读取（写期间短暂不可写）。
+```
 
 
 <!-- 第 49 页 -->
@@ -1869,6 +1925,7 @@ lfs getstripe -v /mnt/lustre/test/bigfile # obdidx 应含新 OST index
 recordsize、arc_max（控制 ARC 缓存占用，避免与 Lustre 缓存争内存）；
  磁盘调度器：HDD 用 mq-deadline，SSD/NVMe 用 none/noop。
 11.4 客户端调优
+```bash
 # RPC 大小与每 RPC 页数的关系
 lctl set_param osc.lustre-*.max_pages_per_rpc=256 # 影响 rpc_size（256 页*4K=1MB
 RPC）
@@ -1878,6 +1935,7 @@ lctl set_param llite.lustre-*.max_read_ahead_mb=256
  max_pages_per_rpc 决定单 RPC 携带数据量（与底层网络 MTU/带宽匹配）；
  max_rpcs_in_flight 提升并发度，但消耗客户端内存；
  合理预读显著加速大文件顺序读取。
+```
 
 
 <!-- 第 50 页 -->
@@ -1890,6 +1948,7 @@ MDT，提升并发；
  使用 SSD/NVMe 承载 MDT，降低随机小 IO 延迟；
  减少不必要的 stat 风暴与深度目录遍历（2.16+ 已优化大目录遍历）。
 DNE 相关命令：
+```bash
 # 把某个大目录分布到 4 个 MDT（index 0,1,2,3）
 lfs setdirstripe -D -c 4 /mnt/lustre/bigdir
 # 2.15+ 支持按空间自动平衡新建目录到各 MDT
@@ -1908,6 +1967,7 @@ RPC 延迟分布
 基准工具：IOR（并行带宽）、mdtest（元数据）、fio、dd。示例：ior -w -r -t 1m -b
 1g -o /mnt/lustre/test.dat。监控对接：Prometheus + Grafana（采集 osc.*.stats 与
 mdt.*.md_stats）。
+```
 
 
 <!-- 第 51 页 -->
@@ -1923,6 +1983,7 @@ cat /proc/fs/lustre/health_status # 节点健康状态
 12.2 增加与移除 OST
 新增 OST（扩容）：见第 10 章——格式化新盘并挂载，MGS 自动感知，无需停机。
 移除 OST（缩容）：必须先迁移其上数据，避免文件条带丢失：
+```bash
 # 将目录下文件迁移到新的 4 个 OST（示例）
 lfs migrate -n 4 /mnt/lustre/dataset
 # 或使用 Robinhood 策略引擎自动迁移
@@ -1944,6 +2005,7 @@ LNet → ③ lctl dl 检查 target 状态 → ④ 查看日志具体报错；
 端；核对 networks= 配置与路由表；
  性能骤降：检查是否热点 OST（某些 OST 接近满）、锁争用（ldlm 统计）、网络丢
 包。
+```
 
 
 <!-- 第 52 页 -->
@@ -2408,6 +2470,7 @@ failnode
 --mkfsoptions 透传给底层后端文件系统的格式化选项
 --writeconf 重置 target 配置代次（谨慎使用）
 C.3 日常管理命令
+```bash
 # lctl：底层设备与参数
 lctl dl # 列出本节点所有 Lustre 设备（target/客户端）
 lctl get_param *.*.stats # 读取各类统计
@@ -2422,12 +2485,14 @@ lfs getstripe [-v] <path> # 查看布局
 lfs setstripe -c N -S SIZE <path> # 设置条带
 lfs setdirstripe -D -c N <dir> # 大目录分布到多 MDT（DNE）
 lfs migrate -c N <path> # 迁移文件到 N 个 OST
+```
 
 
 <!-- 第 60 页 -->
 
 60
 lfs quota -u username /mnt/lustre # 配额查询
+```bash
 # lnetctl：LNet 动态配置
 lnetctl lnet configure # 初始化 LNet
 lnetctl net add --net tcp0 --if <网卡> # 添加网络
@@ -2437,6 +2502,7 @@ lnetctl ping <nid> # 连通性测试（2.13+）
 zpool create <pool> <device> # 建池
 zpool list # 查看池
 zpool set cachefile=/etc/zfs/zpool.cache <pool> # 写入缓存文件（开机自动导入）
+```
 
 
 <!-- 第 61 页 -->

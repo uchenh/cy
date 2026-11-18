@@ -33,11 +33,11 @@ DGX SPARK 技术部调研报告
 朴赛服务器
 朴赛服务器
 
-![图（第1页）](assets/DGX SPARK调研报告/p1_img1.jp2)
+![图（第1页）](assets/DGX%20SPARK%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/p1_img1.jp2)
 
-![图（第1页）](assets/DGX SPARK调研报告/p1_img2.jp2)
+![图（第1页）](assets/DGX%20SPARK%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/p1_img2.jp2)
 
-![图（第1页）](assets/DGX SPARK调研报告/p1_img3.jp2)
+![图（第1页）](assets/DGX%20SPARK%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/p1_img3.jp2)
 
 
 <!-- 第 2 页 -->
@@ -87,7 +87,7 @@ DGX SPARK 技术部调研报告
 朴赛服务器
 朴赛服务器
 
-![图（第2页）](assets/DGX SPARK调研报告/p2_img4.jpg)
+![图（第2页）](assets/DGX%20SPARK%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/p2_img4.jpg)
 
 
 <!-- 第 3 页 -->
@@ -166,4 +166,4 @@ http://localhost:11000
 朴赛服务器
 朴赛服务器
 
-![图（第4页）](assets/DGX SPARK调研报告/p4_img5.jpg)
+![图（第4页）](assets/DGX%20SPARK%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A/p4_img5.jpg)

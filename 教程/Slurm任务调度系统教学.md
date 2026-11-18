@@ -309,19 +309,23 @@ srun python analyze.py --input data.csv
 ⼤幅提升⼯作效率和任务⾃动化⽔平
 作业依赖
 通过 --dependency 设置作业间依赖，实现 流⽔线式任务处理 。
+```bash
 # 作业A完成后启动作业B
 sbatch --dependency=afterok:12345 jobB.sh
 afterok:jobid - 成功后执⾏
 after:jobid - 开始后执⾏
 作业数组
 通过 --array 批量提交相似任务，提⾼效率和资源利⽤率。
+```
 #SBATCH --array=1-100:2%5
+```bash
 # 1到100，步⻓2，同时运⾏5个
 使⽤ $SLURM_ARRAY_TASK_ID 区分任
 务
 适⽤于参数扫描、批量处理
 GPU资源申请
 通过 --gres=gpu:N 申请GPU资源。
+```
 #SBATCH --gres=gpu:2
 QoS与优先级
 通过 --qos 指定服务质量等级，调整作业优先级。

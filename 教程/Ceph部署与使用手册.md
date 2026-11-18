@@ -83,6 +83,7 @@ lsblk # 看到无分区的 sdb 即可
 ping -c 2 192.168.12.176 && ping -c 2 192.168.12.90 && ping -c 2 192.168.12.169
 2.2 系统初始化（三节点逐一执行）
 以下命令在 ceph1、ceph2、ceph3 每台都执行（hostname 按对应节点修改）。
+```bash
 # 主机名（每台节点改成自己的名字）
 hostnamectl set-hostname ceph1
 # hosts 解析
@@ -105,6 +106,7 @@ free -m | grep Swap # total 为 0
 2.3 开启 root SSH 登录（三节点逐一执行）
 cephadm 需要 root 权限，Ubuntu 24.04 默认禁止 root SSH，需先用 ps 用户提权开启。
 # 用 ps 用户执行（sudo 提权）
+```
 
 
 <!-- 第 6 页 -->
@@ -120,6 +122,7 @@ ssh root@192.168.12.176 hostname # 输入密码 1，返回 ceph1
 ssh root@192.168.12.90 hostname # 返回 ceph2
 ssh root@192.168.12.169 hostname # 返回 ceph3
 2.4 配置 SSH 免密（ceph1 执行）
+```bash
 # 生成密钥
 ssh-keygen -t rsa -N '' -f /root/.ssh/id_rsa
 # 安装 sshpass 并分发公钥到三台节点
@@ -147,6 +150,7 @@ PROXY
 source /root/.bashrc
 # 5. bootstrap（拉取约 1.3GB 镜像，需 5~15 分钟）
 cephadm bootstrap --mon-ip 192.168.12.176
+```
 
 
 <!-- 第 7 页 -->
@@ -154,6 +158,7 @@ cephadm bootstrap --mon-ip 192.168.12.176
 6
 ✔ 验证与保存：cephadm version 输出版本号；bootstrap 完成后保存终端输出的 Dashboard
 初始密码（忘记可用 2.10 节命令重置）。
+```bash
 # 检查初始状态（此时 /usr/bin/ceph 还没建，必须用 cephadm shell）
 cephadm shell ceph -s
 # 应有 1 MON、1 MGR、HEALTH_WARN、0 OSD
@@ -186,6 +191,7 @@ application enable <池名> rbd
 包装脚本替代。
 # ceph 命令包装
 cat > /usr/bin/ceph << 'CEPH'
+```
 #!/bin/bash
 exec cephadm shell -- ceph "$@"
 CEPH
@@ -195,8 +201,10 @@ CEPH
 
 7
 chmod +x /usr/bin/ceph
+```bash
 # rbd 命令包装（map 系列需挂载宿主机 /sys /dev）
 cat > /usr/bin/rbd << 'RBD'
+```
 #!/bin/bash
 NEED_MOUNT="map showmapped unmap"
 FIRST=$1
@@ -207,6 +215,7 @@ exec cephadm shell -- rbd "$@"
 fi
 RBD
 chmod +x /usr/bin/rbd
+```bash
 # 加载 rbd 内核模块（仅需要 rbd map 时才需要）
 modprobe rbd && echo 'rbd' > /etc/modules-load.d/rbd.conf
 ✔ 验证：ceph -s 正常输出集群状态（首次较慢，之后复用容器很快）。
@@ -231,12 +240,14 @@ rbd unmap mypool/my-disk
  密码重置（忘记或太弱时）：
 echo "CephAdmin@2026" | cephadm shell -- ceph dashboard ac-user-set-password admin -i -
 Ceph 19 强密码策略：至少 8 位，需含大写字母 + 数字，123456 会被拒。
+```
 
 
 <!-- 第 9 页 -->
 
 8
 2.11 部署常见问题速查
+```bash
 # 错误 解决
 1 Permission denied (publickey,password) root SSH 未开启，回 2.3 节用 ps 用户改配
 置
@@ -256,6 +267,7 @@ pvremove -f $(pvs --noheadings -o pv_name 2>/dev/null) 2>/dev/null
 wipefs -a /dev/sdb
 rm -f /etc/apt/sources.list.d/ceph.list
 然后从 2.2 节重新开始。
+```
 
 
 <!-- 第 10 页 -->
@@ -324,6 +336,7 @@ ceph orch host add <NEW_HOSTNAME> <NEW_IP>
 ✔ 验证：ceph orch host ls 主机数量 +1；等 30~60 秒，ceph orch ps --host
 <NEW_HOSTNAME> 有 exporter 等 daemon。
 步骤 4：添加 OSD
+```bash
 # 新节点上先清空数据盘（在 <NEW_HOSTNAME> 执行）
 wipefs -a /dev/sdb
 # ceph1 上查看设备 → 添加 OSD
@@ -331,6 +344,7 @@ ceph orch device ls | grep <NEW_HOSTNAME> # AVAIL = Yes 表示可用
 ceph orch daemon add osd <NEW_HOSTNAME>:/dev/sdb
 ✔ 验证：ceph -s | grep osd → OSD 数量 +1，up / in 状态相同；ceph osd tree 有新主机。
 新 OSD 自动触发数据再平衡，后台进行，不影响现有业务。
+```
 
 
 <!-- 第 12 页 -->
@@ -350,6 +364,7 @@ OSD 数量 +1，up / in 状态相同
 容量 原始 / 可用容量相应增加
 MON 数量保持不变（3 个已满足高可用）。
 3.4 常见问题
+```bash
 # 问题 解决
 1 ceph orch host add 报 Failed to connect authorized_keys 缺 ceph.pub → 重做步骤 2，
 确认免密
@@ -368,6 +383,7 @@ MON 数量保持不变（3 个已满足高可用）。
 7. 扩容后不可逆（删 OSD 会触发再平衡），生产操作需谨慎
 8. IP 必须唯一：选 <NEW_IP> 前先 ping 确认无冲突
 9. 加多台节点时，重复步骤 1~4 即可，全部添加完统一再平衡
+```
 
 
 <!-- 第 13 页 -->
@@ -397,6 +413,7 @@ cat >> /etc/hosts << 'HOSTS'
 192.168.12.169 ceph3
 192.168.12.237 client
 HOSTS
+```bash
 # 静态 IP（根据实际规划修改网卡名与地址）
 cat > /etc/netplan/01-netcfg.yaml << 'NETPLAN'
 network:
@@ -408,6 +425,7 @@ dhcp4: no
 addresses: [192.168.12.237/24]
 routes:
 - to: default
+```
 
 
 <!-- 第 14 页 -->
@@ -430,6 +448,7 @@ apt update && apt install -y ceph-common
 用容器包装脚本方案。
 步骤 3：获取集群认证（ceph1 执行）
 cat /etc/ceph/ceph.client.admin.keyring
+```bash
 # 记录输出中的 key 值，格式如：key = AQCDEf1234...==
 步骤 4：配置客户端认证（客户端执行）
 mkdir -p /etc/ceph
@@ -450,6 +469,7 @@ ceph -s
 ✔ 预期：显示 HEALTH_OK、3 MON、3 OSD。
 失败时检查：ceph.conf 的 MON IP、网络（telnet 192.168.12.176 6789）、客户端防火墙
 （ufw disable）。
+```
 
 
 <!-- 第 15 页 -->
@@ -461,6 +481,7 @@ ceph osd pool create client_pool 32 32
 ceph osd pool application enable client_pool rbd
 rbd create --size 5G client_pool/test_disk
 客户端操作（客户端执行）：
+```bash
 # 查看远端镜像
 rbd ls client_pool # 应输出 test_disk
 # 映射（需内核模块）
@@ -478,6 +499,7 @@ rbd unmap client_pool/test_disk
 ✔ 验证：rbd showmapped 显示 /dev/rbd0；df -h /mnt/ceph-rbd 显示约 5G 容量。
 步骤 7：开机自动挂载（可选）
 cat > /usr/local/bin/mount-ceph-rbd.sh << 'SCRIPT'
+```
 #!/bin/bash
 modprobe rbd 2>/dev/null
 rbd map client_pool/test_disk 2>/dev/null
@@ -504,12 +526,14 @@ WantedBy=multi-user.target
 SERVICE
 systemctl daemon-reload && systemctl enable ceph-rbd-mount.service
 4.4 常见问题
+```bash
 # 问题 解决
 1 ceph -s 连接超时 检查网络/防火墙，telnet 192.168.12.176 6789 测试
 2 rbd map 报 sysfs write failed modprobe rbd
 3 rbd map 报 Module rbd not found 安装 linux-modules-extra-$(uname -r)
 4 mount: /dev/rbd0 is not a block device 先 rbd showmapped 确认映射成功
 5 auth: incorrect key 检查 keyring 文件内容
+```
 
 
 <!-- 第 17 页 -->
@@ -557,6 +581,7 @@ ceph-fuse（推荐） ceph-fuse 中（用户态 FUSE） ? ✅ 已验证
 挂载点 /mnt/cephfs
 MDS 部署 3 个（1 active + 2 standby，位于 ceph1/2/3）
 5.3 部署 MDS 服务（ceph1 执行）
+```bash
 # 1. 创建存储池（PG：数据池 128，元数据池 32）
 ceph osd pool create cephfs_metadata 32 32
 ceph osd pool create cephfs_data 128 128
@@ -583,6 +608,7 @@ rm -f /etc/apt/sources.list.d/ceph.list
 apt update && apt install -y ceph-fuse
 # 装完如需恢复 ceph 源
 echo "deb [trusted=yes] https://download.ceph.com/debian-squid/ jammy main" \
+```
 
 
 <!-- 第 19 页 -->
@@ -593,6 +619,7 @@ echo "deb [trusted=yes] https://download.ceph.com/debian-squid/ jammy main" \
 在客户端创建 /etc/ceph/ceph.conf 和 ceph.client.admin.keyring（从集群 ceph1 复
 制）：
 mkdir -p /etc/ceph
+```bash
 # ceph.conf 内容：
 # [global]
 # fsid = <ceph fsid>
@@ -626,11 +653,13 @@ apt install -y ceph-common
 # 认证文件（/etc/ceph/ceph.conf + ceph.client.admin.keyring，从集群 ceph1 复制）
 mkdir -p /mnt/cephfs
 mount -t ceph 192.168.12.176:6789:/ /mnt/cephfs -o name=admin
+```
 
 
 <!-- 第 20 页 -->
 
 19
+```bash
 # 多 MON 容错：192.168.12.176,192.168.12.90,192.168.12.169:6789:/
 # 免 keyring 文件：-o name=admin,secret=<密钥>
 5.7 自动挂载与排查
@@ -671,11 +700,13 @@ mkdir -p /mnt/cephfs/data
 echo "CephFS test file" > /mnt/cephfs/data/hello.txt
 cat /mnt/cephfs/data/hello.txt
 dd if=/dev/zero of=/mnt/cephfs/data/test.bin bs=1M count=100 # 大文件测试
+```
 
 
 <!-- 第 21 页 -->
 
 20
+```bash
 # 多节点共享验证（ceph1 写入 → 客户端读取）
 echo "shared data" > /mnt/cephfs/shared.txt
 # 状态查看
@@ -712,6 +743,7 @@ ceph fs authorize myfs client.app1 / rw /data/app1 rw
 7 ? socket error on
 write（dmesg）
 Kernel 7.0 与 Squid 协议不兼容 改用 ceph-fuse
+```
 
 
 <!-- 第 22 页 -->
@@ -728,6 +760,7 @@ exit
 ceph tell mds.0 session ls
 ceph tell mds.0 session evict id:<session_id> # 强制断开
 5.11 卸载方法
+```bash
 # ceph-fuse / 内核客户端通用
 umount /mnt/cephfs
 # 失败时：lsof /mnt/cephfs 查占用 → umount -f /mnt/cephfs（强制）
@@ -735,6 +768,7 @@ umount /mnt/cephfs
 # 清理 systemd 自动挂载
 systemctl stop cephfs-mount.service
 systemctl disable cephfs-mount.service
+```
 
 
 <!-- 第 23 页 -->
@@ -779,6 +813,7 @@ RGW 数据池 rgw_data（PG 128）/ rgw_meta、rgw_log（PG 32）
 23
 默认 S3 用户 testuser
 6.3 部署 RGW 服务（ceph1 执行）
+```bash
 # 1. 创建存储池（可选，cephadm 也会自动建；数据池 128，元数据/日志池 32）
 ceph osd pool create rgw_data 128 128
 ceph osd pool create rgw_meta 32 32
@@ -811,6 +846,7 @@ apt install -y s3cmd
 # 交互配置，或直接写 ~/.s3cfg：
 cat > ~/.s3cfg << 'CFG'
 [default]
+```
 
 
 <!-- 第 25 页 -->
@@ -834,6 +870,7 @@ s3cmd rm s3://my-bucket/file.txt # 删除
 s3cmd rb s3://my-bucket # 删桶（需先清空）
 s3cmd sync ./dir/ s3://my-bucket/ # 递归同步目录
 s3cmd setacl s3://my-bucket/file.txt --acl-public # 设公开读
+```bash
 # 公开文件浏览器直接访问：http://192.168.12.176/my-bucket/file.txt
 ⚠ Ceph RGW 的 ACL 分 bucket 级 + object 级两层：桶设公开不会自动应用到对象，每个
 文件需单独 --acl-public。
@@ -857,6 +894,7 @@ s3://aws-bucket/test.jpg --expires-in 3600 # 预签名 URL
 6.7 Python SDK（boto3）
 import boto3
 from botocore.client import Config
+```
 
 
 <!-- 第 26 页 -->
@@ -890,6 +928,7 @@ mkdir -p /etc/nginx/ssl
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 -keyout /etc/nginx/ssl/rgw.key -out /etc/nginx/ssl/rgw.crt \
 -subj "/CN=s3.ceph.local"
+```bash
 # /etc/nginx/sites-available/rgw
 server {
 listen 443 ssl;
@@ -904,6 +943,7 @@ proxy_set_header X-Real-IP $remote_addr;
 }
 ln -s /etc/nginx/sites-available/rgw /etc/nginx/sites-enabled/
 nginx -s reload
+```
 
 
 <!-- 第 27 页 -->
@@ -911,6 +951,7 @@ nginx -s reload
 26
 6.8.2 配额、生命周期与 CORS
 以下 radosgw-admin 命令在 ceph1 上需加 cephadm shell -- 前缀。
+```bash
 # 桶配额（10GB / 1000 对象）
 cephadm shell -- radosgw-admin quota set --uid=testuser \
 --quota-scope=bucket --max-size=10G
@@ -951,6 +992,7 @@ RGW 端口不可达 telnet 192.168.12.176 80
 6 EntityTooLarge 单文件超 5GB 用分片上传（multipart）
 7 InvalidAccessKeyId key 被禁用 / 删除 radosgw-admin user info 确认
 8 curl 访问返回 403 需签名认证，不支持匿名 用 s3cmd/AWS CLI/SDK（403 属正常响应）
+```
 
 
 <!-- 第 28 页 -->
@@ -963,6 +1005,7 @@ cephadm enter --name rgw.myrgw.ceph1
 tail -100 /var/log/ceph/ceph-client.rgw.myrgw.ceph1.log
 exit
 6.10 卸载与清理
+```bash
 # 1. 清空并删除桶
 s3cmd del s3://my-bucket/*
 s3cmd rb s3://my-bucket
@@ -975,6 +1018,7 @@ ceph orch rm rgw.myrgw
 ceph osd pool delete rgw_data rgw_data --yes-i-really-really-mean-it
 ceph osd pool delete rgw_meta rgw_meta --yes-i-really-really-mean-it
 ceph osd pool delete rgw_log rgw_log --yes-i-really-really-mean-it
+```
 
 
 <!-- 第 29 页 -->
@@ -1008,11 +1052,13 @@ Dashboard 用）
 功能：仪表盘（健康 / 容量 / IOPS）、主机、OSD、存储池、MON / MGR / MDS 监控、CephFS
 状态、RGW 状态。
 管理命令：
+```bash
 # 查看状态 / 端口
 systemctl status ceph-a2173549-84bf-11f1-8f8e-000c29c6cc12@mgr.ceph1
 ss -tlnp | grep 8443
 # 重置密码
 echo "新密码" | cephadm shell -- ceph dashboard ac-user-set-password admin -i -
+```
 
 
 <!-- 第 30 页 -->
@@ -1030,6 +1076,7 @@ echo "新密码" | cephadm shell -- ceph dashboard ac-user-set-password admin -i
 ⚠ 前提：/mnt/cephfs 必须已挂载（ceph-fuse）。若页面显示 "It feels lonely
 here..." 且目录为空，按 5.7 节排查挂载。
 7.3.1 下载并安装（ceph1 执行）
+```bash
 # 方法一：ceph1 直连 GitHub（网络可达时）
 curl -fsSL -o /tmp/fb.tar.gz \
 https://github.com/filebrowser/filebrowser/releases/latest/download/linux-amd64-
@@ -1053,6 +1100,7 @@ filebrowser config init --root=/mnt/cephfs --address=0.0.0.0 --port=8080 \
 filebrowser config set --minimumPasswordLength=6 --database=/etc/filebrowser.db
 # 创建登录用户（用户名 admin，密码自定）
 filebrowser users add admin Ps.123456 --perm.admin=true --database=/etc/filebrowser.db
+```
 
 
 <!-- 第 31 页 -->
@@ -1087,6 +1135,7 @@ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/ # 200
 镜像 / 端口 docker.io/machines/filestash:latest / 8334:8334
 持久化卷 filestash-data → /app/data（配置持久保存）
 7.4.1 拉取镜像并启动（ceph1 执行）
+```bash
 # 拉取 Filestash 镜像（网络受限时可先 export http_proxy / https_proxy 代理地址）
 podman pull docker.io/machines/filestash:latest
 # 配置持久化卷（保存管理员密码和 S3 连接配置，容器重建不丢失）
@@ -1095,6 +1144,7 @@ podman volume create filestash-data
 podman run -d --name filestash --restart=always \
 -p 8334:8334 \
 -v filestash-data:/app/data \
+```
 
 
 <!-- 第 32 页 -->
@@ -1102,6 +1152,7 @@ podman run -d --name filestash --restart=always \
 31
 docker.io/machines/filestash:latest
 podman ps --filter name=filestash --format "{{.Names}} {{.Status}} {{.Ports}}"
+```bash
 # 应输出：filestash Up X hours 0.0.0.0:8334->8334/tcp
 7.4.2 注册 systemd 服务（推荐，更可靠的开机自启）
 # 用 podman 自动生成标准 systemd 单元
@@ -1134,6 +1185,7 @@ curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8334/ # 200（跳转 set
 ⚠ 公网地址为动态分配，cpolar 每次重启 / 重连都会变化。获取当前地址：
 grep "Tunnel established" /var/log/cpolar/access.log | tail -4
 隧道配置（/usr/local/etc/cpolar/cpolar.yml）：
+```
 
 
 <!-- 第 33 页 -->
@@ -1147,6 +1199,7 @@ filestash http 127.0.0.1:8334 Filestash
 Dashboard 因 HTTPS 自签名证书无法被 cpolar 直接代理，由 Nginx 监听 8444 反代到
 8443（proxy_ssl_verify off）。
 7.6 Web 界面常见问题
+```bash
 # 问题 解决
 1 File Browser 下载 PDF 返回 ZIP 压缩包 ? v2.63.x 的下载接口用路径参数格式 /api/raw/<路
 径>?inline=true，前端 SPA 默认使用正确格式；手动
@@ -1162,6 +1215,7 @@ cephfs-mount.service（见 5.7 节）
 7.3.1 节）
 7 Filestash 连接 S3 报错 确认 Endpoint 带端口 80、勾选 Path style、AK/SK
 正确
+```
 
 
 <!-- 第 34 页 -->

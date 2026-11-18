@@ -15,7 +15,7 @@ Slurm调度系统简介01
 目录
 作业提交03
 
-![图（第2页）](assets/SLURM调度系统介绍/p2_img2.jpg)
+![图（第2页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 3 页 -->
@@ -25,7 +25,7 @@ Slurm调度系统简介01
 目录
 作业提交03
 
-![图（第3页）](assets/SLURM调度系统介绍/p3_img3.jpg)
+![图（第3页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 4 页 -->
@@ -43,7 +43,7 @@ n 所有需运行的作业，无论是用于程序调试还是业务计算，
 配式 salloc 等命令提交，提交后可以利用相关命令查
 询修改作业状态等。
 
-![图（第4页）](assets/SLURM调度系统介绍/p4_img4.jpg)
+![图（第4页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第4页）](assets/SLURM调度系统介绍/p4_img5.jp2)
 
@@ -63,7 +63,7 @@ n tasks：任务数，单个作业或作业步可有多个任务，一般一个�
 n  Partition：队列、分区。用于对计算节点、作业并行规模、作业时长、用户等进行分组管理，
 以合理分配资源。
 
-![图（第5页）](assets/SLURM调度系统介绍/p5_img6.jpg)
+![图（第5页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 6 页 -->
@@ -73,7 +73,7 @@ Slurm调度系统简介01
 目录
 作业提交03
 
-![图（第6页）](assets/SLURM调度系统介绍/p6_img7.jpg)
+![图（第6页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 7 页 -->
@@ -85,7 +85,7 @@ squeue 查看作业和作业步状态
 sacct 报告作业/作业步的记账信息。
 sstat 报告正在运行的作业/作业步的信息，包含状态采集。
 
-![图（第7页）](assets/SLURM调度系统介绍/p7_img8.jpg)
+![图（第7页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 8 页 -->
@@ -104,7 +104,7 @@ n sinfo命令常用参数
 -s 显示摘要信息
 -l, --long 显示详细信息
 
-![图（第8页）](assets/SLURM调度系统介绍/p8_img9.jpg)
+![图（第8页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 9 页 -->
@@ -116,7 +116,7 @@ sinfo
 ü 查看某个分区的节点信息
 sinfo –p <分区名>
 
-![图（第9页）](assets/SLURM调度系统介绍/p9_img10.jpg)
+![图（第9页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第9页）](assets/SLURM调度系统介绍/p9_img11.jpg)
 
@@ -152,7 +152,7 @@ alloc/mix 节点被占用
 n sinfo 命令输出格式
 n 节点状态说明
 
-![图（第11页）](assets/SLURM调度系统介绍/p11_img16.jpg)
+![图（第11页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第11页）](assets/SLURM调度系统介绍/p11_img17.jpg)
 
@@ -172,7 +172,7 @@ n 节点状态说明
 -w, --nodelist=<hostlist> 显示特定节点的作业信息
 n squeue 命令参数
 
-![图（第12页）](assets/SLURM调度系统介绍/p12_img18.jpg)
+![图（第12页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 13 页 -->
@@ -184,7 +184,7 @@ squeue
 ü 查看某个分区的作业信息
 squeue –p <分区名>
 
-![图（第13页）](assets/SLURM调度系统介绍/p13_img19.jpg)
+![图（第13页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第13页）](assets/SLURM调度系统介绍/p13_img20.jpg)
 
@@ -200,7 +200,7 @@ squeue –w <节点名>
 ü 按照指定状态查看作业信息
 squeue –t <作业状态>
 
-![图（第14页）](assets/SLURM调度系统介绍/p14_img22.jpg)
+![图（第14页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第14页）](assets/SLURM调度系统介绍/p14_img23.jpg)
 
@@ -224,7 +224,7 @@ Priority 作业所需的队列存在高等级作业或者预留
 QOSJobLimit 作业的QOS达到其最大作业计数
 n 原因
 
-![图（第15页）](assets/SLURM调度系统介绍/p15_img25.jpg)
+![图（第15页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第15页）](assets/SLURM调度系统介绍/p15_img26.jpg)
 
@@ -249,7 +249,7 @@ YYYY-MM-DD[THH:MM[:SS]]
 ­-j <jobid> 显示在特定节点数量上运行的作业
 -o, --format=<format> 指定显示字段以逗号分隔
 
-![图（第16页）](assets/SLURM调度系统介绍/p16_img27.jpg)
+![图（第16页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 17 页 -->
@@ -261,7 +261,7 @@ sacct
 ü 查看运行在某个节点上的历史作业信息
 sacct -N <节点名>
 
-![图（第17页）](assets/SLURM调度系统介绍/p17_img28.jpg)
+![图（第17页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第17页）](assets/SLURM调度系统介绍/p17_img29.jpg)
 
@@ -276,7 +276,7 @@ n sacct 常用命令示例
 内的历史作业信息
 sacct -N a3310n17 -S 2022-01-22T17:09:16 -E 2022-01-22T17:09:27
 
-![图（第18页）](assets/SLURM调度系统介绍/p18_img31.jpg)
+![图（第18页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第18页）](assets/SLURM调度系统介绍/p18_img32.jpg)
 
@@ -294,9 +294,9 @@ COMPLETED 作业（步）正常结束
 CANCELLED 作业（步）取消
 FAILED 作业（步）失败
 
-![图（第19页）](assets/SLURM调度系统介绍/p19_img33.jpg)
+![图（第19页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
-![图（第19页）](assets/SLURM调度系统介绍/p19_img34.jpg)
+![图（第19页）](assets/SLURM调度系统介绍/p17_img29.jpg)
 
 
 <!-- 第 20 页 -->
@@ -310,7 +310,7 @@ n sstat 命令查看正在运行的作业
  -o, --format 格式化输出
  -j, --jobs 指定作业jobid
 
-![图（第20页）](assets/SLURM调度系统介绍/p20_img35.jpg)
+![图（第20页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 21 页 -->
@@ -322,7 +322,7 @@ sstat –j <作业ID>
 ü 查看输出格式化字段范围
 sstat –e
 
-![图（第21页）](assets/SLURM调度系统介绍/p21_img36.jpg)
+![图（第21页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第21页）](assets/SLURM调度系统介绍/p21_img37.jpg)
 
@@ -336,7 +336,7 @@ n sstat 常用命令示例
 ü 查看作业内存消耗等常见信息
 sstat –j <作业ID>-o jobid%16,nodelist,ntasks,averss,maxrss,avevmsize,maxvmsize,pids
 
-![图（第22页）](assets/SLURM调度系统介绍/p22_img39.jpg)
+![图（第22页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 ![图（第22页）](assets/SLURM调度系统介绍/p22_img40.jpg)
 
@@ -350,7 +350,7 @@ Slurm调度系统简介01
 目录
 作业提交03
 
-![图（第23页）](assets/SLURM调度系统介绍/p23_img42.jpg)
+![图（第23页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 24 页 -->
@@ -371,7 +371,7 @@ A
 C
 B
 
-![图（第24页）](assets/SLURM调度系统介绍/p24_img43.jpg)
+![图（第24页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 25 页 -->
@@ -392,7 +392,7 @@ B
 --exclusive 设置节点独占
 n 适用于srun、salloc和sbatch命令
 
-![图（第25页）](assets/SLURM调度系统介绍/p25_img44.jpg)
+![图（第25页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 26 页 -->
@@ -411,7 +411,7 @@ n * cpus-per-task <= N *单节点CPU核心数
 
 ![图（第26页）](assets/SLURM调度系统介绍/p26_img46.jpg)
 
-![图（第26页）](assets/SLURM调度系统介绍/p26_img47.jpg)
+![图（第26页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 27 页 -->
@@ -427,7 +427,7 @@ srun -p <分区> -w <节点> -n <总任务数> <作业脚本或者命令>
 
 ![图（第27页）](assets/SLURM调度系统介绍/p27_img49.jpg)
 
-![图（第27页）](assets/SLURM调度系统介绍/p27_img50.jpg)
+![图（第27页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 28 页 -->
@@ -443,7 +443,7 @@ salloc -p <分区> -N <节点数>
 
 ![图（第28页）](assets/SLURM调度系统介绍/p28_img51.jpg)
 
-![图（第28页）](assets/SLURM调度系统介绍/p28_img52.jpg)
+![图（第28页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 29 页 -->
@@ -459,7 +459,7 @@ slurm-<作业ID>.out
 
 ![图（第29页）](assets/SLURM调度系统介绍/p29_img54.jpg)
 
-![图（第29页）](assets/SLURM调度系统介绍/p29_img55.jpg)
+![图（第29页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 30 页 -->
@@ -477,7 +477,7 @@ n sbatch 脚本示例
 
 ![图（第30页）](assets/SLURM调度系统介绍/p30_img56.jpg)
 
-![图（第30页）](assets/SLURM调度系统介绍/p30_img57.jpg)
+![图（第30页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 31 页 -->
@@ -497,7 +497,7 @@ $SLURM_SUBMIT_DIR 工作目录
 $SLURM_SUBMIT_HOST 提交作业的主机名
 n slurm作业可以通过以下变量获取作业信息
 
-![图（第31页）](assets/SLURM调度系统介绍/p31_img58.jpg)
+![图（第31页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 32 页 -->
@@ -506,7 +506,7 @@ n slurm作业可以通过以下变量获取作业信息
 
 ![图（第32页）](assets/SLURM调度系统介绍/p32_img59.jpg)
 
-![图（第32页）](assets/SLURM调度系统介绍/p32_img60.jpg)
+![图（第32页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 33 页 -->
@@ -528,7 +528,7 @@ n slurm作业可以通过以下变量获取作业信息
 交互式任务 salloc，手动切换 qsub -I，自动切换
 指定特定节点 #SBATCH --nodelist=comput1 qsub -l nodes=comput1
 
-![图（第33页）](assets/SLURM调度系统介绍/p33_img61.jpg)
+![图（第33页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 34 页 -->
@@ -542,7 +542,7 @@ n scancel 命令用于取消挂起或正在运行的作业或作业步骤。
 -u, --user=<user_name> 指定用户名
 -w, --nodelist=<hostlist> 指定节点
 
-![图（第34页）](assets/SLURM调度系统介绍/p34_img62.jpg)
+![图（第34页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 35 页 -->
@@ -554,7 +554,7 @@ scancel <作业ID>
 
 ![图（第35页）](assets/SLURM调度系统介绍/p35_img63.jpg)
 
-![图（第35页）](assets/SLURM调度系统介绍/p35_img64.jpg)
+![图（第35页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 36 页 -->
@@ -565,11 +565,11 @@ Slurm 支持重新安排处于完成或失败状态的作业。可以使用命�
 然后，该作业将被重新排队，回到 PENDING 状态
 scontrol requeue <作业ID>
 
-![图（第36页）](assets/SLURM调度系统介绍/p36_img65.jpg)
+![图（第36页）](assets/SLURM调度系统介绍/p10_img13.jpg)
 
 
 <!-- 第 37 页 -->
 
 谢 谢
 
-![图（第37页）](assets/SLURM调度系统介绍/p37_img66.jpg)
+![图（第37页）](assets/SLURM调度系统介绍/p1_img1.jpg)

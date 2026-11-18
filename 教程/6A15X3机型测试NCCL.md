@@ -81,6 +81,6 @@ NCCL_MIN_NCHANNELS=32 ./alltoall_perf -b 1m -e 2g -f 2 -g 8
 44.56
 30.69
 
-![图（第2页）](assets/6A15X3机型测试NCCL/p2_img3.png)
+![图（第2页）](assets/6A15X3机型测试NCCL/p1_img1.png)
 
-![图（第2页）](assets/6A15X3机型测试NCCL/p2_img4.png)
+![图（第2页）](assets/6A15X3机型测试NCCL/p1_img2.png)

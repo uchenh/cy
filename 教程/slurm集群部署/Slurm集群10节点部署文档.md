@@ -4,8 +4,8 @@
 
 | 节点 | 角色 | IP | CPU | 内存 | GPU / Gres | 分区 |
 | --- | --- | --- | --- | --- | --- | --- |
-| master | slurmctld + slurmdbd + MariaDB + NTP + CPU 计算 | 192.168.19.95 | 64 核(AMD 9124) | 251G | — | cpu（默认） |
-| storage | NFS 服务端 `/mnt/sdb`(220T RAID5) + CPU 计算 | 192.168.19.65 | 64 核 | 251G | — | cpu |
+| master | slurmctld + slurmdbd + MariaDB + NTP + CPU 计算 | 192.168.19.95 | 64 核(AMD 9124) | 256G | — | cpu（默认） |
+| storage | NFS 服务端 `/mnt/sdb`(220T RAID5) + CPU 计算 | 192.168.19.65 | 64 核 | 256G | — | cpu |
 | gpu1 | slurmd（GPU + 高核CPU） | 192.168.19.82 | 384 核 | 1TB | 8×A100 / `gpu:8` | gpu, cpugpu |
 | gpu2 | slurmd | 192.168.18.184 | 384 核 | 1TB | 8×A100 / `gpu:8` | gpu, cpugpu |
 | gpu3 | slurmd | 192.168.19.205 | 384 核 | 1TB | 8×A100 / `gpu:8` | gpu, cpugpu |

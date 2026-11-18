@@ -73,6 +73,18 @@
 | [OpenOnDemand 安装部署](教程/OpenOnDemand安装部署.md) | [OpenOndemand 调研手册](教程/OpenOndemand调研手册.md) |
 | [A800 GPU Burn 压测操作文档](教程/A800-GPU-Burn压测操作文档.md) | [网络技术培训总结](教程/网络技术培训总结.md) |
 
+### 📄 文档转录（由 Word/PDF 转换，含原图）
+
+| 文档 | 文档 |
+|:---|:---|
+| [Ceph 部署与使用手册](教程/Ceph部署与使用手册.md) | [Lustre 部署参考手册](教程/Lustre部署参考手册.md) |
+| [Slurm 任务调度系统教学](教程/Slurm任务调度系统教学.md) | [Rocky Linux 9.5 安装教程](教程/Rocky_Linux_9.5_安装教程.md) |
+| [Ubuntu 22.04 + Kubernetes 1.28 部署](教程/k8s/Ubuntu%2022.04%20单Master节点部署Kubernetes%201.28%20+%20可视化Dashboard.md) | [Kimi K3 四机八卡部署](教程/Kimi_K3_四机八卡分布式推理部署指南.md) |
+| [4090/5090 开启 P2P](教程/4090、5090开启p2p教程.md) | [6A15X3 机型 NCCL 测试](教程/6A15X3机型测试NCCL.md) |
+| [fabric 驱动性能优化 · NCCL 测试](教程/针对16卡机安装fabric驱动性能提升------测试NCCL.md) | [BIOS 配置 · W790](教程/BIOS配置--W790.md) |
+| [AMD 显卡测试报告](教程/AMD显卡测试报告.md) | [标品大模型测试笔记](教程/标品大模型测试笔记.md) |
+| [DGX Spark 性能测试报告](教程/DGX%20SPARK性能测试报告.md) | [DGX Spark 调研报告](教程/DGX%20SPARK调研报告.md) |
+
 ---
 
 ## 🤖 模型部署
@@ -90,6 +102,13 @@
 - [Lustre 与 Ceph 核心组件详解](知识/Ceph/Lustre与Ceph核心组件详解.md) — 两大存储系统组件对照
 - [Ceph 集群部署研究成果分享 · 讲解指南](知识/Ceph/Ceph集群部署研究成果分享-讲解指南.md)
 
+**Linux 技术要点** —— `知识/Linux/`
+
+- [Linux Ansible 详解](知识/Linux/Linux_Ansible_详解.md)
+- [Linux Zabbix 监控系统详解](知识/Linux/Linux_Zabbix_监控系统详解.md)
+- [Linux iptables 详解](知识/Linux/Linux_iptables_详解.md)
+- [NUMA 技术](知识/Linux/NUMA技术.md)
+
 **前沿资讯** —— `知识/`
 
 - [前沿咨讯](知识/前沿咨讯.md) — AI 服务器基础设施与大模型落地动态
@@ -104,12 +123,17 @@
 - [DeepSeek · GLM · Qwen 视觉多模态模型对比报告](其他/deepseek-vs-glm-vs-qwen-vision-models.md)
 - [Ubuntu sudo/reboot 无效 · 假 systemctl 修复记录](其他/Ubuntu-sudo-reboot无效-假systemctl修复记录.md)
 - [Ubuntu 22.04 挖矿木马排查与清理记录](其他/Ubuntu22.04-挖矿木马排查与清理记录.md)
+- [GPU 集群 IDC 上架组网与大模型分布式训练 · 性能测试规划书](其他/GPU集群IDC上架组网及大模型分布式训练-性能测试规划书.md)
+- [GPU 集群性能测试规划书 V1.2](其他/GPU集群性能测试规划书_V1.2_含吞吐压力.md)
+- [SLURM 调度系统介绍](其他/SLURM调度系统介绍.md)
+- [算力网络通信全路径](其他/算力网络通信全路径.md)
 
 ---
 
 ## 📋 变更记录
 
 - **2026-11-18**：归集本地散落的有用文档入库——新增「教程/现场集群部署」成套 13 篇及配套 HPC 部署手册（HTML 可视化门户 + Word 版）、Slurm 现场交付指南、OpenOndemand 调研手册/Ceph 规划/压测/网络培训等教程、4 篇模型部署与性能排障、Ceph 讲解指南与前沿资讯、2 篇 Ubuntu 排障记录（共 26 篇 md + 3 份附件；OpenOnDemand 安装部署手册与远程已有版本内容一致，未重复入库）；补齐 `slurm集群完整流程.pdf` 修复 README 遗留断链；同步更新 README 导航。源目录文件保留，未覆盖仓库已有文档。
+- **2026-11-18（Word/PDF 转录）**：将 22 篇本人技术/部署/测试文档由 Word/PDF 转为 Markdown，抽取内嵌图片 220 张至各文档 `assets/` 目录（约 36 MB）；分类入库（教程 14 篇、知识/Linux 4 篇、其他 4 篇），README 增加「文档转录」「Linux 技术要点」导航。按用户确认原样发布（含内网地址，遵循「仅限内部使用」说明）。已排除 HCIP 题库、公司产品资料、个人文件、投标/控标材料及已有 md 版本的文档。源 Word/PDF 保留未改动。
 
 ## 📌 说明
 
